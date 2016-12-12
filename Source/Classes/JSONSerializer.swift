@@ -37,22 +37,14 @@ internal class JSONSerializer {
             }
             
             identifierDict["channel"] = "\(channel.name)"
-            
-            let JSONData = try JSONSerialization.data(withJSONObject: identifierDict, options: JSONSerialization.WritingOptions(rawValue: 0))
-            guard let identifierString = NSString(data: JSONData, encoding: String.Encoding.utf8.rawValue)
-                  else { throw SerializationError.json }
-            
+			
             var commandDict = [
                 "command" : command.string,
-                "identifier" : identifierString
+                "identifier" : identifierDict
             ] as [String : Any]
             
             if let _ = data {
-                let JSONData = try JSONSerialization.data(withJSONObject: data!, options: JSONSerialization.WritingOptions(rawValue: 0))
-                guard let dataString = NSString(data: JSONData, encoding: String.Encoding.utf8.rawValue)
-                      else { throw SerializationError.json }
-                
-                commandDict["data"] = dataString
+                commandDict["data"] = data!
             }
             
             let CmdJSONData = try JSONSerialization.data(withJSONObject: commandDict, options: JSONSerialization.WritingOptions(rawValue: 0))
