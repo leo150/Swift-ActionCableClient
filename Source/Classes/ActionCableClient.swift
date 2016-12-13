@@ -234,7 +234,7 @@ extension ActionCableClient {
     }
     
     public subscript(name: String) -> Channel {
-        let channel = create(name, identifier: nil, autoSubscribe: true, bufferActions: true)
+        let channel = create(name, identifier: nil, data: nil, autoSubscribe: true, bufferActions: true)
         return channel
     }
 }
