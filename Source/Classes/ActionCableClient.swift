@@ -196,7 +196,7 @@ extension ActionCableClient {
     /// - Returns: a Channel
     
     public func create(_ name: String) -> Channel {
-        let channel = create(name, identifier: nil, autoSubscribe: true, bufferActions: true)
+        let channel = create(name, identifier: nil, data: nil, autoSubscribe: true, bufferActions: true)
         return channel
     }
     
@@ -205,10 +205,11 @@ extension ActionCableClient {
     /// - Parameters:
     ///     - name: The name of the channel. The name must match the class name on the server exactly. (e.g. RoomChannel)
     ///     - identifier: An optional Dictionary with parameters to be passed into the Channel on each request
+    ///     - data: An optional Dictionary with additional parameters to be passed into the Channel on each request
     ///     - autoSubscribe: Whether to automatically subscribe to the channel. Defaults to true.
     /// - Returns: a Channel
     
-    public func create(_ name: String, identifier: ChannelIdentifier?, autoSubscribe: Bool=true, bufferActions: Bool=true) -> Channel {
+    public func create(_ name: String, identifier: ChannelIdentifier?, data: ChannelData?, autoSubscribe: Bool=true, bufferActions: Bool=true) -> Channel {
         // Look in existing channels and return that
         if let channel = channels[name] { return channel }
         
@@ -218,6 +219,7 @@ extension ActionCableClient {
         // Otherwise create a new one
         let channel = Channel(name: name,
             identifier: identifier,
+            data: data,
             client: self,
             autoSubscribe: autoSubscribe,
             shouldBufferActions: bufferActions)

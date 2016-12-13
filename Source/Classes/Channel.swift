@@ -22,6 +22,7 @@
 
 import Foundation
 
+public typealias ChannelData = ActionPayload
 public typealias ChannelIdentifier = ActionPayload
 public typealias OnReceiveClosure = ((Any?, Swift.Error?) -> (Void))
 
@@ -33,6 +34,9 @@ open class Channel: Hashable, Equatable {
     
     /// Identifier
     open var identifier: Dictionary<String, Any>?
+    
+    /// Data that is sent with each request
+    open var data: Dictionary<String, Any>?
     
     /// Auto-Subscribe to channel on initialization and re-connect?
     open var autoSubscribe : Bool
@@ -81,12 +85,13 @@ open class Channel: Hashable, Equatable {
     /// by the server.
     open var onRejected: (() -> Void)?
 
-    internal init(name: String, identifier: ChannelIdentifier?, client: ActionCableClient, autoSubscribe: Bool=true, shouldBufferActions: Bool=true) {
+    internal init(name: String, identifier: ChannelIdentifier?, data: ChannelData?, client: ActionCableClient, autoSubscribe: Bool=true, shouldBufferActions: Bool=true) {
         self.name = name
         self.client = client
         self.autoSubscribe = autoSubscribe
         self.shouldBufferActions = shouldBufferActions
         self.identifier = identifier
+        self.data = data
     }
     
     open func onReceive(_ action:String, handler: @escaping (OnReceiveClosure)) -> Void {
